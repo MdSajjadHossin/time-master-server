@@ -20,7 +20,8 @@ async function run(){
         const database = client.db('time_master');
         const productCollection = database.collection('products');
         const exploreCollection = database.collection('explore');
-        const orderCollection = database.collection('orders')
+        const orderCollection = database.collection('orders');
+        const usersCollection = database.collection('users');
 
         // GET API
         app.get('/products', async(req, res) =>{
@@ -56,6 +57,22 @@ async function run(){
             const result = await orderCollection.deleteOne(query);
 
             console.log('Deleting User With Id:',result);
+            res.json(result);
+        })
+        //User POST API
+        app.post('/users', async(req, res) => {
+            const user = req.body;
+            const result = await usersCollection.insertOne(user);
+            console.log(result);
+            res.json(result);
+        })
+        //Google Login UPSERT API
+        app.put('/users', async(req, res) => {
+            const user = req.body;
+            const filter = { email: user.email };
+            const options = { upsert: true };
+            const updateDoc = { $set: user };
+            const result = await usersCollection.updateOne(filter, updateDoc, options);
             res.json(result);
         })
     }

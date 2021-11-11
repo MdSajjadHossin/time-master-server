@@ -19,6 +19,7 @@ async function run(){
         const database = client.db('time_master');
         const productCollection = database.collection('products');
         const exploreCollection = database.collection('explore');
+        const orderCollection = database.collection('orders')
 
         // GET API
         app.get('/products', async(req, res) =>{
@@ -32,6 +33,13 @@ async function run(){
             const explores = await cursor.toArray();
             res.send(explores);
         })
+        //Order Post API
+        app.post('/orders', async (req, res) => {
+            const order = req.body;
+            const result = await orderCollection.insertOne(order)
+            console.log(order);
+            res.json(result);
+        });
     }
     finally{
         // await client.close();

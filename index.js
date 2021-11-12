@@ -37,6 +37,13 @@ async function run(){
             res.send(explores);
         })
         //Order POST API
+        app.post('/explore', async (req, res) => {
+            const explore = req.body;
+            const result = await exploreCollection.insertOne(explore)
+            console.log(result);
+            res.json(result);
+        });
+        //Order POST API
         app.post('/orders', async (req, res) => {
             const order = req.body;
             const result = await orderCollection.insertOne(order)

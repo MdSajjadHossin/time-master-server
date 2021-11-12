@@ -18,24 +18,32 @@ async function run(){
         await client.connect();
         console.log('Database Connected Successfully');
         const database = client.db('time_master');
-        const productCollection = database.collection('products');
+        // const productCollection = database.collection('products');
         const exploreCollection = database.collection('explore');
         const orderCollection = database.collection('orders');
         const usersCollection = database.collection('users');
         const reviewCollection = database.collection('reviews');
 
         // GET API
-        app.get('/products', async(req, res) =>{
-            const cursor = productCollection.find({});
-            const products = await cursor.toArray();
-            res.send(products);
-        })
+        // app.get('/products', async(req, res) =>{
+        //     const cursor = productCollection.find({});
+        //     const products = await cursor.toArray();
+        //     res.send(products);
+        // })
         // GET API
         app.get('/explore', async(req, res) =>{
             const cursor = exploreCollection.find({});
             const explores = await cursor.toArray();
             res.send(explores);
         })
+        //DELETE Explore API
+        app.delete('/explore/:id', async (req, res) =>{
+            const id = req.params.id;
+            const query = {_id: ObjectId(id) };
+            const result = await exploreCollection.deleteOne(query);
+            console.log('Deleting User With Id:',result);
+            res.json(result);
+        });
         //Order POST API
         app.post('/explore', async (req, res) => {
             const explore = req.body;
@@ -63,7 +71,6 @@ async function run(){
             const id = req.params.id;
             const query = {_id: ObjectId(id) };
             const result = await orderCollection.deleteOne(query);
-
             console.log('Deleting User With Id:',result);
             res.json(result);
         });
@@ -114,7 +121,14 @@ async function run(){
             const cursor = reviewCollection.find({});
             const reviews = await cursor.toArray();
             res.send(reviews);
+        });
+        //
+        app.get('/orders', async(req, res) =>{
+            const cursor = orderCollection.find();
+            const allOrder = await cursor.toArray();
+            res.send(allOrder);
         })
+        
     }
     finally{
         // await client.close();

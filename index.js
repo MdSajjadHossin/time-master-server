@@ -22,6 +22,7 @@ async function run(){
         const exploreCollection = database.collection('explore');
         const orderCollection = database.collection('orders');
         const usersCollection = database.collection('users');
+        const reviewCollection = database.collection('reviews');
 
         // GET API
         app.get('/products', async(req, res) =>{
@@ -93,6 +94,19 @@ async function run(){
                isAdmin=true;
            }
            res.json({ admin: isAdmin });
+        })
+        //Review POST API
+        app.post('/reviews', async (req, res) => {
+            const review = req.body;
+            const result = await reviewCollection.insertOne(review)
+            console.log(review);
+            res.json(result);
+        });
+        //review GET API
+        app.get('/reviews', async(req, res) =>{
+            const cursor = reviewCollection.find({});
+            const reviews = await cursor.toArray();
+            res.send(reviews);
         })
     }
     finally{

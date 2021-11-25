@@ -1,5 +1,5 @@
 # Getting Started with Book My Holiday
- live Site: https://book-my-holiday-6c1cf.web.app
+ live Site: https://time-master-18414.web.app/
 
 
 
@@ -17,7 +17,7 @@ After Successfully installing run the command
 
 Then The Projects Will Deployed Al PORT: localhost:5000
 
-This is a Neish related project server where you can perform all the basic operation of a neish related website .
+This is a Neish related project server where you can perform all the basic operation of a neish related website.
 
 Also The server side of the project is deplyed to 
 ### `heroku.com`
